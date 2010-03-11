@@ -1,14 +1,62 @@
 =*How to download and install eyeos 1.9.0.0 ??*=
 
 
-= Introduction =
 
-Add your content here.
+==REQUIREMENTS:==
+
+    Main requirements for installing eyeOS 1.9.0.0 
+
+1)*SERVER*
+
+    The main requirement for a new eyeos installation is a PHP compatible Web Server with PHP 5 or higher. We recommend to use a server with Apache Web Server and PHP 5. 
+
+2)*CLIENT*
+
+    Your browser needs to be standards-compliant and support CSS. This includes the common modern browsers
+
+= *Details* =
+
+1)Download the eyeOS tar.gz : wget http://downloads.sourceforge.net/eyeos/eyeOS_1.9.0.0.tar.gz
+
+2)extract it : tar -zxvf eyeOS_1.9.0.0.tar.gz
+
+We extract the eyeos eyepackage in the folder eyeOS/cd eyeOS tar -zxvf eyeOS1900.eyepackage
+
+==*Editing Basics Settings:*==
+
+We need to edit 'settings.php' to change the eyeOS root. The variable called REAL_EYE_ROOT is the name of the folder containing eyeOS filesystem. With WebInstaller?, this name is randomized to get more security.Choose a name and replace changeEYEROOT by it :
+
+The code before (this is an extract):
+
+/Paths define('EYE_ROOT','.'); define('REAL_EYE_ROOT','changeEYEROOT');
+
+And after
+
+/Paths define('EYE_ROOT','.'); define('REAL_EYE_ROOT','eyeOS');
+
+We change the name of the eyeOS folder to make it match with REAl_EYE_ROOT
+
+mv -v eyeOS eyeOS eyeOS' -> eyeOS'
+
+The -v option is for verbose
+
+Now, we need to put a password for user root and put a good date of creation. With EyeOS the password is hashed , here's command line to crypt your password and put it into root.xml Go to the accounts/rt4 directory then, type :
+
+RootPassword?=YOUR_PASSWORD
+
+where YOUR_PASSWORD is your root password
+
+Then paste this code into the shell:
+
+echo -n "$RootPassword?"echo -n "$RootPassword"|md5sum|cut -d" " -f1|md5sum|cut -d" " -f1>RootPass?.MD5 ReplaceRootPass?=cat RootPass.MD5 sed 's/'"changePassword"'/'"${ReplaceRootPass?}"'/g' root.xml > root.xml.temp rm -Rf root.xml rm -Rf RootPass?.MD5 date=date DATE=date --date="$date" +%s sed 's/'"changeCreateDate"'/'"${DATE}"'/g' root.xml.temp > root.xml
+
+Now, we put the good rights to the folder
+
+cd .. chown -R www:www eyeOS chmod -R 700 eyeOS
+
+we delete install.php :
+
+rm -rF /eyeOS/install.php /eyeOS/RootPass?.MD5 
 
 
-= Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
